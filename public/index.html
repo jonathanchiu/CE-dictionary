@@ -5,11 +5,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CS3200 Project Chinese/English Dictionary</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> -->
 <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/u/bs-3.3.6/dt-1.10.12/datatables.min.css"/> -->
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.css">
 <link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="https://bootswatch.com/paper/bootstrap.min.css">
 
 </head>
 
@@ -22,7 +23,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="text-center">
+        <div class="text-center" id="search-radios">
           <label class="radio-inline">
             <input type="radio" value="pinyin_numbers" name="searchtype" checked="checked">Pinyin
           </label>
@@ -50,14 +51,6 @@
       <div class="table-responsive">
         <table class="table" id="search-results">
           <thead>
-            <tr>
-              <th>ID</th>
-              <th>Traditional</th>
-              <th>Simplified</th>
-              <th>Pinyin Numbers</th>
-              <th>Pinyin Marks</th>
-              <th>Definition</th>
-            </tr>
           </thead>
           <tbody>
             
@@ -78,7 +71,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table-locale-all.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/locale/bootstrap-table-en-US.min.js" type="text/javascript"></script>
 <script src="jquery.tabledit.min.js"></script>
+<script src='https://code.responsivevoice.org/responsivevoice.js'></script>
   <script src="dictionary.js"></script>
+  <script type="text/javascript">
+        $("tbody tr").on('click', function() {
+          console.log($(this));
+          // responsiveVoice($(this).find("td:eq(2) input").val(), "Chinese Female");
+        });    
+  </script>
 </body>
 
 </html>

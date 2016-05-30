@@ -27,7 +27,7 @@ app.use(bodyParser.json());
  */
 app.get('/search/:type/:query', function(req, res) {
   var sqlQuery = "SELECT * FROM dictionary WHERE " + req.params.type + " REGEXP '[[:<:]]" + req.params.query + "[[:>:]]'";
-  
+
   connection.query(sqlQuery, function(err, rows, fields) {
     if (err) {
       throw err;
@@ -37,7 +37,30 @@ app.get('/search/:type/:query', function(req, res) {
 
 });
 
-app.post('/testing', function(req, res) {
+app.post('/update-delete', function(req, res) {
+  if (req.body.action === 'edit') {
+    var id = req.body.id;
+    var traditional = req.body.traditional;
+    var simplified = req.body.simplified;
+    var pinyin_numbers = req.body.pinyin_numbers;
+    var pinyin_marks = req.body.pinyin_marks;
+    var translation = req.body.translation;
+
+    var sqlQuery = `UPDATE dictionary SET traditional='${traditional}', simplified='${simplified}',
+      pinyin_numbers='${pinyin_numbers}', pinyin_marks='${pinyin_marks}', translation='${translation}' WHERE id=${id}`;
+
+    console.log(sqlQuery);
+
+    connection.query(sqlQuery, function(err, rows, fields) {
+      if (err) {
+        throw err;
+      }
+      res.end('{"success" : "Updated Successfully", "status" : 200}');
+    });
+  } 
+  else if (req.body.action === 'delete') {
+
+  }
   console.log(req.params);
   console.log(req.query.id);
   console.log(req.body);

@@ -1,3 +1,12 @@
-table {
-  padding: 1em;
+#search-field {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+#search-radios {
+  margin-bottom: 1.5em;
+}
+
+#search-btn {
+  margin-bottom: 1.5em;
 }
