@@ -29,57 +29,53 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="">About</a></li>
-            <li><a href="/create">Create</a></li>
+            <li class="active"><a href="">Create</a></li>
           </ul>
         </div>
       </div>
     </nav>
 
   <div id="main-content" class="container">
-    <form>
-      <div class="form-group row">
-        <div class="col-xs-12">
-          <input type="text" class="form-control" id="search-field" placeholder="Enter pinyin, Chinese characters, or English!">
-        </div>
-      </div>
-      <div class="row">
-        <div class="text-center" id="search-radios">
-          <label class="radio-inline">
-            <input type="radio" value="pinyin_numbers" name="searchtype" checked="checked">Pinyin
-          </label>
-          <label class="radio-inline">
-            <input type="radio" value="traditional" name="searchtype">Traditional
-          </label>
-          <label class="radio-inline">
-            <input type="radio" value="simplified" name="searchtype">Simplified
-          </label>
-          <label class="radio-inline">
-            <input type="radio" value="translation" name="searchtype">English
-          </label>
-        </div>
-      </div>
 
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label for="pinyin_marks" class="col-sm-2 control-label">Pinyin Marks</label>
+        <div class="col-sm-10">
+          <input name="pinyin_marks" type="text" class="form-control" id="pinyin_marks" placeholder="hóng zhāng">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="pinyin_numbers" class="col-sm-2 control-label">Pinyin Numbers</label>
+        <div class="col-sm-10">
+          <input name="pinyin_numbers" type="text" class="form-control" id="pinyin_numbers" placeholder="hong2 zhang1">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="simplified" class="col-sm-2 control-label">Simplified</label>
+        <div class="col-sm-10">
+          <input name="simplified" type="text" class="form-control" id="simplified" placeholder="鸿章">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="traditional" class="col-sm-2 control-label">Traditional</label>
+        <div class="col-sm-10">
+          <input name="traditional" type="text" class="form-control" id="traditional" placeholder="鴻章">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="translation" class="col-sm-2 control-label">Definition</label>
+        <div class="col-sm-10">
+          <input name="translation" type="text" class="form-control" id="translation" placeholder="Li Hung-chang or Li Hongzhang (1823-1901), Qing dynasty general, politician and diplomat">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <a id="add-new-vocab" class="btn btn-success">Add New Vocabulary</a>
+        </div>
+      </div>
     </form>
-
-    <div class="row">
-      <div class="text-center">
-        <a id="search-btn" type="submit" href="#" class="btn btn-primary">Search</a>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="table-responsive">
-        <table class="table" id="search-results">
-          <thead>
-          </thead>
-          <tbody>
-            
-          </tbody>
-        </table>
-      </div>
-    </div>
   </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>

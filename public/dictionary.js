@@ -1,8 +1,23 @@
 $(function() {
 
+  $('#add-new-vocab').on('click', function() {
+    $.ajax({
+      url: '/create',
+      type : "POST",
+      dataType : 'json',
+      data : $("form").serialize(),
+      success : function(result) {
+        console.log(result);
+      },
+      error: function(xhr, resp, text) {
+        console.log(xhr, resp, text);
+      }
+    });
+  });
+
   function initChineseSpeech() {
     $(".play-audio").on('click', function() {
-      var textToRead = $(this).closest('tr').find("td:eq(2) input").val();
+      var textToRead = $(this).closest('tr').find("td:eq(3) input").val();
       responsiveVoice.speak(textToRead, 'Chinese Female');
     }); 
   }
@@ -15,6 +30,7 @@ $(function() {
         editable: [[1, 'pinyin_marks'], [2, 'pinyin_numbers'], [3, 'simplified'],
                   [4, 'traditional'], [5, 'translation']]
       },
+      restoreButton: false,
       onAjax: function(action, serialize) {
           console.log('onAjax(action, serialize)');
           console.log(action);
