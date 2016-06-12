@@ -1,5 +1,22 @@
-# CE-dictionary
+# ZhongEngDict
+
+## Install
+1. Make sure you have [nodejs](https://nodejs.org/en/) installed
+2. By default `npm` will be installed as part of `nodejs`
+3. Run the included SQL install script by going to MySQLWorkBench, `File` -> `Run SQL Script` (do not go another route that involves actually opening the file as your computer will experience painful lag)
+3. Clone this repository and `cd` to it
+4. Run `npm install` which will install all dependencies of this project, as specified in `package.json`
+5. Run `node index.js` which will start the web server
+6. Enjoy
+
+## Features
+* Create, read, update, delete vocabulary (pinyin, simplified, traditional, translation)
+* Favorite words
+* Restore deleted words
+
+## Info
 A Chinese/English dictionary project for CS3200 (Database Design)
+
 We tentatively plan doing a web interface describing a bilingual Chinese and English Dictionary. It will provide information regarding translations, Chinese pinyin equivalents, and traditional or simplified Chinese characters. Thus, these features of our program will also be a part of our data domain as attributes in the dictionary. Users will be able to lookup words in Chinese and get their English meanings, and vice-versa. Users will be able to search by pinyin, Chinese, or by the English definition. We plan to largely mimic the functionality of popular Chinese/English dictionaries on the web. In our dictionary project, we will be able to create and insert new Chinese or English vocabularies. The users will be able to read and see that data. In addition, we will be able to update vocabulary and even delete vocabulary in our database, all through a front-facing interface.
 
 We plan on using SQL storage, specifically utilizing MySQL.
