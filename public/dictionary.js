@@ -42,6 +42,8 @@ $(function() {
   $('#search-btn').click(function() {
     var playAudio = "<button type='button' class='btn btn-sm btn-default play-audio' style='float: none;'>" + 
           "<span class='glyphicon glyphicon-play'></span></button>";
+    var heart = "<button type='button' class='btn btn-sm btn-default favorite' style='float: none;'>" + 
+          "<span class='glyphicon glyphicon-heart'></span></button>";
     var searchType = $("form input[type='radio']:checked").val();
     var searchQuery = $("#search-field").val();
 
@@ -84,6 +86,7 @@ $(function() {
         // Initialize the table to be editable (update/delete)
         initEditableTable();
         $(".btn-group-sm").append(playAudio);
+        $(".btn-group-sm").append(heart);
         // Initialize the text to speech click event once data has loaded
         initChineseSpeech();
       },
@@ -92,6 +95,7 @@ $(function() {
         // the DOM to change and the click events refer to old DOM elements
         initEditableTable();
         $(".btn-group-sm").append(playAudio);
+        $(".btn-group-sm").append(heart);
         initChineseSpeech();
       }
     });
