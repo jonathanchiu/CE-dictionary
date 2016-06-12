@@ -4,9 +4,11 @@ var express = require('express');
 var mysql = require('mysql');
 // Package for parsing AJAX POST data
 var bodyParser = require('body-parser');
-var app = express();
+
 var path = require('path');
-// Create connection to the MySQL DB
+var app = express();
+
+// Create connection to the MySQL DB, edit information accordingly
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
@@ -21,18 +23,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-// Given a formatted SQL query, execute it
+// Given a formatted SQL query, execute it and return JSON result of rows
 function execute(query, res) {
   connection.query(query, function(err, rows, fields) {
     if (err) {
       throw err;
     }
-    console.log(rows);
     res.json(rows);
   });
 }
 
-// Serves static HTML page for adding new vocabulary
+// Routes for serving static HTML pages
 app.get('/create', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/create.html'));
 });
@@ -41,6 +42,37 @@ app.get('/deleted-archive-page', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/deleted-archive.html'));
 });
 
+app.get('/favorites-page', function(req, res) {
+  res.sendFile(path.join(__dirname + '/public/favorites.html'));
+})
+
+/**
+ * GET route for displaying list of favorited words
+ */ 
+app.get('/favorites', function(req, res) {
+  var sqlQuery = `SELECT * FROM info i JOIN dictionary d ON i.id = d.id WHERE favorites > 0`;
+
+  execute(sqlQuery, res);
+});
+
+/**
+ * PUT route for favoriting a word
+ */ 
+app.put('/favorite/:id', function(req, res) {
+  var id = req.params.id;
+  var sqlQuery = `UPDATE info SET favorites = favorites + 1 WHERE id=${id}`;
+
+  connection.query(sqlQuery, function(err, rows, fields) {
+    if (err) {
+      throw err;
+    }
+    res.end('{"success" : "Favorited Successfully", "status" : 200}');
+  });
+});
+
+/**
+ * PUT route for restoring a "deleted" word
+ */
 app.put('/restore/:id', function(req, res) {
   var id = req.params.id;
   var sqlQuery = `UPDATE info SET deleted=NULL WHERE id=${id}`;
@@ -48,18 +80,22 @@ app.put('/restore/:id', function(req, res) {
     if (err) {
       throw err;
     }
-    console.log(rows);
     res.end('{"success" : "Restored Successfully", "status" : 200}');
   });
-
 });
 
+/**
+ * GET route for displaying "deleted" words
+ */ 
 app.get('/deleted-archive', function(req, res) {
   var sqlQuery = `SELECT * FROM info i JOIN dictionary d ON i.id = d.id WHERE deleted IS NOT NULL`;
 
   execute(sqlQuery, res);
 });
 
+/**
+ * POST route for creating a new word
+ */
 app.post('/create', function(req, res) {
   var traditional = req.body.traditional;
   var simplified = req.body.simplified;
@@ -97,7 +133,12 @@ app.get('/search/:type/:query', function(req, res) {
   execute(sqlQuery, res);
 });
 
+/**
+ * POST route for handling edit, delete operations
+ */
 app.post('/update-delete', function(req, res) {
+
+  // SQL logic for handling editing a word
   if (req.body.action === 'edit') {
     var id = req.body.id;
     var traditional = req.body.traditional;
@@ -115,9 +156,12 @@ app.post('/update-delete', function(req, res) {
       }
       res.end('{"success" : "Updated Successfully", "status" : 200}');
     });
-  } 
+  }
+
+  // SQL logic for "deleting" a word
   else if (req.body.action === 'delete') {
     var id = req.body.id;
+
     // Convert JS datetime to MySQL compatible datetime
     var date = new Date().toISOString().slice(0, 19).replace('T', ' ');
     var sqlQuery = `UPDATE info SET deleted='${date}' WHERE id=${id}`;
@@ -128,16 +172,6 @@ app.post('/update-delete', function(req, res) {
         throw err;
       }
       res.end('{"success" : "Deleted Successfully", "status" : 200}');
-    });
-  }
-  else if (req.body.action === 'restore') {
-    var id = req.body.id;
-    var sqlQuery = `UPDATE info SET deleted=NULL WHERE id=${id}`;
-    connection.query(sqlQuery, function(err, rows, fields) {
-      if (err) {
-        throw err;
-      }
-      res.end('{"success" : "Restored Successfully", "status" : 200}');
     });
   }
 });

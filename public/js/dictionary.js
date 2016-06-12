@@ -39,6 +39,23 @@ $(function() {
     });
   }
 
+  function initFavorite() {
+    $(".favorite").on('click', function() {
+      var id = $(this).closest("tr").find("td:nth-child(1) span").html();
+
+      $.ajax({
+        url: '/favorite/' + id,
+        type : "PUT",
+        success : function(result) {
+          console.log(result);
+        },
+        error: function(xhr, resp, text) {
+          console.log(xhr, resp, text);
+        }
+      });
+    });
+  }
+
   $('#search-btn').click(function() {
     var playAudio = "<button type='button' class='btn btn-sm btn-default play-audio' style='float: none;'>" + 
           "<span class='glyphicon glyphicon-play'></span></button>";
@@ -89,6 +106,7 @@ $(function() {
         $(".btn-group-sm").append(heart);
         // Initialize the text to speech click event once data has loaded
         initChineseSpeech();
+        initFavorite();
       },
       onPageChange: function() {
         // These need to be reinitialized on a page change because it causes
@@ -97,6 +115,7 @@ $(function() {
         $(".btn-group-sm").append(playAudio);
         $(".btn-group-sm").append(heart);
         initChineseSpeech();
+        initFavorite();
       }
     });
   });
