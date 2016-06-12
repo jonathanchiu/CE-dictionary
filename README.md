@@ -4,10 +4,11 @@
 1. Make sure you have [nodejs](https://nodejs.org/en/) installed
 2. By default `npm` will be installed as part of `nodejs`
 3. Run the included SQL install script by going to MySQLWorkBench, `File` -> `Run SQL Script` (do not go another route that involves actually opening the file as your computer will experience painful lag)
-3. Clone this repository and `cd` to it
-4. Run `npm install` which will install all dependencies of this project, as specified in `package.json`
-5. Run `node index.js` which will start the web server
-6. Enjoy
+4. Clone this repository and `cd` to the repository directory
+5. Run `npm install` which will install all dependencies of this project, as specified in `package.json`
+6. Run `node index.js` which will start the web server
+7. Navigate to `http://localhost:3000`
+8. Enjoy!
 
 ## Features
 * Create, read, update, delete vocabulary (pinyin, simplified, traditional, translation)
