@@ -96,10 +96,6 @@ $(function() {
       sortable: true,
       columns: [
       {
-          field: 'id',
-          title: 'ID'
-      }, 
-      {
           field: 'pinyin_marks',
           title: 'Pinyin Marks'
       }, 

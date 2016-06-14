@@ -29,6 +29,7 @@ function execute(query, res) {
     if (err) {
       throw err;
     }
+    console.log(rows);
     res.json(rows);
   });
 }
