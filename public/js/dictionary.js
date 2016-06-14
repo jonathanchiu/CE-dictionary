@@ -15,6 +15,25 @@ $(function() {
     });
   });
 
+  function initHardDelete() {
+    $(".hard-delete").on('click', function() {
+      var id = $(this).closest("tr").find("td:nth-child(1) span").html();
+      var row = $(this).closest("tr");
+      console.log(id);
+
+      $.ajax({
+        url: '/hard-delete/' + id,
+        type : "DELETE",
+        success : function(result) {
+          row.remove();
+        },
+        error: function(xhr, resp, text) {
+          console.log(xhr, resp, text);
+        }
+      });
+    });
+  }
+
   function initChineseSpeech() {
     $(".play-audio").on('click', function() {
       var textToRead = $(this).closest('tr').find("td:eq(3) input").val();
@@ -61,6 +80,8 @@ $(function() {
           "<span class='glyphicon glyphicon-play'></span></button>";
     var heart = "<button type='button' class='btn btn-sm btn-default favorite' style='float: none;'>" + 
           "<span class='glyphicon glyphicon-heart'></span></button>";
+    var hardDelete = "<button type='button' class='btn btn-sm btn-danger hard-delete' style='float: none;'>" + 
+          "<span class='glyphicon glyphicon-trash'></span></button>";
     var searchType = $("form input[type='radio']:checked").val();
     var searchQuery = $("#search-field").val();
 
@@ -97,25 +118,33 @@ $(function() {
       {
           field: 'translation',
           title: 'Definition'
+      },
+      {
+        field: 'category_name',
+        title: 'Type'
       }
       ],
       onLoadSuccess: function() {
         // Initialize the table to be editable (update/delete)
         initEditableTable();
+        $(".btn-group-sm").append(hardDelete);
         $(".btn-group-sm").append(playAudio);
         $(".btn-group-sm").append(heart);
         // Initialize the text to speech click event once data has loaded
         initChineseSpeech();
         initFavorite();
+        initHardDelete();
       },
       onPageChange: function() {
         // These need to be reinitialized on a page change because it causes
         // the DOM to change and the click events refer to old DOM elements
         initEditableTable();
+        $(".btn-group-sm").append(hardDelete);
         $(".btn-group-sm").append(playAudio);
         $(".btn-group-sm").append(heart);
         initChineseSpeech();
         initFavorite();
+        initHardDelete();
       }
     });
   });

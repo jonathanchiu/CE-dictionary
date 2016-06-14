@@ -55,6 +55,18 @@ app.get('/favorites', function(req, res) {
   execute(sqlQuery, res);
 });
 
+app.delete('/hard-delete/:id', function(req, res) {
+  var id = req.params.id;
+  var sqlQuery = `DELETE FROM dictionary WHERE id=${id}`;
+
+  connection.query(sqlQuery, function(err, rows, fields) {
+    if (err) {
+      throw err;
+    }
+    res.end('{"success" : "Deleted Successfully", "status" : 200}');
+  });
+});
+
 /**
  * PUT route for favoriting a word
  */ 
@@ -127,7 +139,7 @@ app.post('/create', function(req, res) {
  * :query is the user's input in the search bar 
  */
 app.get('/search/:type/:query', function(req, res) {
-  var sqlQuery = "SELECT * FROM dictionary d JOIN info i on d.id = i.id WHERE " 
+  var sqlQuery = "SELECT * FROM dictionary d JOIN info i on d.id = i.id JOIN category c on c.id = i.category_id WHERE " 
     + req.params.type + " REGEXP '[[:<:]]" + req.params.query + "[[:>:]]' AND i.deleted IS NULL";
 
   execute(sqlQuery, res);
