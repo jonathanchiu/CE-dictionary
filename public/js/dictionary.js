@@ -85,6 +85,22 @@ $(function() {
     var searchType = $("form input[type='radio']:checked").val();
     var searchQuery = $("#search-field").val();
 
+    $.ajax({
+      url: '/history',
+      type : "POST",
+      dataType : 'json',
+      data : {
+        query: searchQuery
+      },
+      success : function(result) {
+        console.log(result);
+      },
+      error: function(xhr, resp, text) {
+        console.log(xhr, resp, text);
+      }
+    });
+
+
     // Must destroy the old table before rendering new one with new data
     $("#search-results").bootstrapTable('destroy');
 
@@ -95,6 +111,10 @@ $(function() {
       search: true,
       sortable: true,
       columns: [
+      {
+          field: 'id',
+          title: 'ID'
+      }, 
       {
           field: 'pinyin_marks',
           title: 'Pinyin Marks'
@@ -120,20 +140,16 @@ $(function() {
         title: 'Type'
       }
       ],
-      onLoadSuccess: function() {
-        // Initialize the table to be editable (update/delete)
+      onLoadSuccess: function(result) {
         initEditableTable();
         $(".btn-group-sm").append(hardDelete);
         $(".btn-group-sm").append(playAudio);
         $(".btn-group-sm").append(heart);
-        // Initialize the text to speech click event once data has loaded
         initChineseSpeech();
         initFavorite();
         initHardDelete();
       },
       onPageChange: function() {
-        // These need to be reinitialized on a page change because it causes
-        // the DOM to change and the click events refer to old DOM elements
         initEditableTable();
         $(".btn-group-sm").append(hardDelete);
         $(".btn-group-sm").append(playAudio);

@@ -47,6 +47,10 @@ app.get('/favorites-page', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/favorites.html'));
 })
 
+app.get('/history-page', function(req, res) {
+  res.sendFile(path.join(__dirname + '/public/history.html'));
+})
+
 /**
  * GET route for displaying list of favorited words
  */ 
@@ -74,6 +78,8 @@ app.delete('/hard-delete/:id', function(req, res) {
 app.put('/favorite/:id', function(req, res) {
   var id = req.params.id;
   var sqlQuery = `UPDATE info SET favorites = favorites + 1 WHERE id=${id}`;
+  console.log("favoriting!!")
+  console.log(sqlQuery);
 
   connection.query(sqlQuery, function(err, rows, fields) {
     if (err) {
@@ -102,10 +108,26 @@ app.put('/restore/:id', function(req, res) {
  */ 
 app.get('/deleted-archive', function(req, res) {
   var sqlQuery = `SELECT * FROM info i JOIN dictionary d ON i.id = d.id WHERE deleted IS NOT NULL`;
-
   execute(sqlQuery, res);
 });
 
+app.post('/history', function(req, res) {
+  var searchQuery = req.body.query;
+  var date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  var sqlQuery = `INSERT INTO history (query, date_searched) VALUES ('${searchQuery}', '${date}')`;
+
+  connection.query(sqlQuery, function(err, rows, fields) {
+    if (err) {
+      throw err;
+    }
+    res.end('{"success" : "Recorded History Successfully", "status" : 200}');
+  });
+});
+
+app.get('/history', function(req, res) {
+  var sqlQuery = `SELECT * FROM history ORDER BY date_searched DESC LIMIT 10`;
+  execute(sqlQuery, res);
+});
 /**
  * POST route for creating a new word
  */
@@ -131,7 +153,6 @@ app.post('/create', function(req, res) {
     }
     res.end('{"success" : "Created Successfully", "status" : 200}');
   });
-  res.json(req.body);
 });
 
 /**
@@ -140,7 +161,8 @@ app.post('/create', function(req, res) {
  * :query is the user's input in the search bar 
  */
 app.get('/search/:type/:query', function(req, res) {
-  var sqlQuery = "SELECT * FROM dictionary d JOIN info i on d.id = i.id JOIN category c on c.id = i.category_id WHERE " 
+  var sqlQuery = "SELECT d.id, d.pinyin_marks, d.pinyin_numbers, d.simplified, d.traditional, d.translation, c.category_name" + 
+  " FROM dictionary d JOIN info i on d.id = i.id JOIN category c on c.id = i.category_id WHERE " 
     + req.params.type + " REGEXP '[[:<:]]" + req.params.query + "[[:>:]]' AND i.deleted IS NULL";
 
   execute(sqlQuery, res);
