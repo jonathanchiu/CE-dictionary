@@ -47,7 +47,7 @@ $(function() {
       columns: {
         identifier: [0, 'id'],
         editable: [[1, 'pinyin_marks'], [2, 'pinyin_numbers'], [3, 'simplified'],
-                  [4, 'traditional'], [5, 'translation']]
+                  [4, 'traditional'], [5, 'translation'], [6, 'category_name']]
       },
       restoreButton: false,
       onAjax: function(action, serialize) {

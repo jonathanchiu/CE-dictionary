@@ -137,6 +137,9 @@ app.post('/create', function(req, res) {
   var pinyin_numbers = req.body.pinyin_numbers;
   var pinyin_marks = req.body.pinyin_marks;
   var translation = req.body.translation;
+  var type = req.body.type;
+  var date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
   var sqlQuery = `INSERT INTO dictionary (
             traditional,
             simplified,
@@ -147,6 +150,15 @@ app.post('/create', function(req, res) {
         VALUES
        ('${traditional}', '${simplified}', '${pinyin_numbers}', '${pinyin_marks}', '${translation}')`;
 
+  connection.query(sqlQuery, function(err, rows, fields) {
+    if (err) {
+      throw err;
+    }
+  });
+
+  sqlQuery = `INSERT INTO INFO (
+        favorites, created, category_id) VALUES (0, '${date}', '${type}')`;
+  
   connection.query(sqlQuery, function(err, rows, fields) {
     if (err) {
       throw err;
@@ -181,16 +193,35 @@ app.post('/update-delete', function(req, res) {
     var pinyin_numbers = req.body.pinyin_numbers;
     var pinyin_marks = req.body.pinyin_marks;
     var translation = req.body.translation;
+    var type = req.body.category_name.toLowerCase();
+    console.log(type);
+    var date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    var category_id = null;
+
+    if (type == "noun") {
+      category_id = 1;
+    } else if (type == "adjective") {
+      category_id = 2;
+    } else if (type == "verb") {
+      category_id = 3;
+    }
 
     var sqlQuery = `UPDATE dictionary SET traditional='${traditional}', simplified='${simplified}',
-      pinyin_numbers='${pinyin_numbers}', pinyin_marks='${pinyin_marks}', translation='${translation}' WHERE id=${id}`;
+      pinyin_numbers='${pinyin_numbers}', pinyin_marks='${pinyin_marks}', translation='${translation}' WHERE id=${id};`;
 
     connection.query(sqlQuery, function(err, rows, fields) {
       if (err) {
         throw err;
       }
-      res.end('{"success" : "Updated Successfully", "status" : 200}');
+      sqlQuery = `UPDATE info SET edited='${date}', category_id='${category_id}' WHERE id=${id};`;
+      connection.query(sqlQuery, function(err, rows, fields) {
+        if (err) {
+          throw err;
+        }
+        res.end('{"success" : "Updated Successfully", "status" : 200}');
+      });
     });
+
   }
 
   // SQL logic for "deleting" a word

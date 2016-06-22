@@ -5,9 +5,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CS3200 Project Chinese/English Dictionary</title>
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> -->
-<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/u/bs-3.3.6/dt-1.10.12/datatables.min.css"/> -->
-<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.css">
 <link rel="stylesheet" type="text/css" href="https://bootswatch.com/paper/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -69,6 +66,16 @@
         <label for="translation" class="col-sm-2 control-label">Definition</label>
         <div class="col-sm-10">
           <input name="translation" type="text" class="form-control" id="translation" placeholder="Li Hung-chang or Li Hongzhang (1823-1901), Qing dynasty general, politician and diplomat">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="traditional" class="col-sm-2 control-label">Type</label>
+        <div class="col-sm-10">
+          <select name="type" class="form-control">
+            <option value="1">Noun</option>
+            <option value="2">Adjective</option>
+            <option value="3">Verb</option>
+          </select>
         </div>
       </div>
       <div class="form-group">
