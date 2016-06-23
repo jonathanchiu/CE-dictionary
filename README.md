@@ -6,6 +6,7 @@
 3. Run the included SQL install script by going to MySQLWorkBench, `File` -> `Run SQL Script` (do not go another route that involves actually opening the file as your computer will experience painful lag)
 4. Clone this repository and `cd` to the repository directory
 5. Run `npm install` which will install all dependencies of this project, as specified in `package.json`
+6. Ensure that the MySQL credentials in `index.js` match up with your own
 6. Run `node index.js` which will start the web server
 7. Navigate to `http://localhost:3000`
 8. Enjoy!
