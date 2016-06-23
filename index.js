@@ -23,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
+
 // Given a formatted SQL query, execute it and return JSON result of rows
 function execute(query, res) {
   connection.query(query, function(err, rows, fields) {
@@ -33,6 +34,8 @@ function execute(query, res) {
     res.json(rows);
   });
 }
+
+
 
 // Routes for serving static HTML pages
 app.get('/create', function(req, res) {
